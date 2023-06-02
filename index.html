@@ -1,59 +1,76 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moja Strona</title>
+    <title>Welcome to Our Website!</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .product-image {
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .contact-form input[type="text"],
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .contact-form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+            .contact-form input[type="submit"]:hover {
+                background-color: #45a049;
+            }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Witaj na mojej stronie!</h1>
-    </header>
+    <div class="container">
+        <h1>Part 1: Introduction</h1>
+        <p>Welcome to our website, where we bring you the latest information on our exciting products. Discover how our innovative solutions can enhance your life and revolutionize your daily routine. Don't miss out on this opportunity to learn more!</p>
 
-    <section>
-        <h2>Czêœæ 1: Krótki tekst z przyciskiem CTA</h2>
-        <p>Tutaj umieszczasz swój krótki tekst, który zachêca u¿ytkowników do dzia³ania.</p>
-        <a href="#section2">Zobacz wiêcej</a>
-    </section>
-
-    <section id="section2">
-        <h2>Czêœæ 2: Prezentacja produktów</h2>
+        <h1>Part 2: Product Showcase</h1>
         <div class="product">
-            <h3>Nazwa produktu 1</h3>
-            <p>Opis produktu 1</p>
-            <a href="link-do-szczegolow-produktu-1">Szczegó³y</a>
+            <h2>Product Name 1</h2>
+            <img class="product-image" src="product_image_1.jpg" alt="Product 1">
+            <p>Discover the remarkable features and benefits of our first product. By clicking the link below, you will find detailed information and specifications to help you make an informed decision.</p>
+            <a href="product1_details.html">View details</a>
         </div>
+
         <div class="product">
-            <h3>Nazwa produktu 2</h3>
-            <p>Opis produktu 2</p>
-            <a href="link-do-szczegolow-produktu-2">Szczegó³y</a>
+            <h2>Product Name 2</h2>
+            <img class="product-image" src="product_image_2.jpg" alt="Product 2">
+            <p>Take a closer look at our second product, designed to simplify your life. Explore the link below for comprehensive details, including customer reviews and frequently asked questions.</p>
+            <a href="product2_details.html">View details</a>
         </div>
-    </section>
 
-    <section>
-        <h2>Czêœæ 3: Zaembedowane wideo</h2>
-        <div class="video">
-            <!-- Tutaj wstaw kod embed dla wideo z YouTube -->
-        </div>
-        <p>Tutaj mo¿esz opisaæ zalety produktu przedstawiane w wideo.</p>
-    </section>
+        <h1>Part 3: Video Presentation</h1>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
 
-    <section>
-        <h2>Czêœæ 4: Formularz</h2>
-        <form action="adres-do-wyslania-formularza" method="post">
-            <label for="name">Imiê i nazwisko:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="phone">Telefon:</label>
-            <input type="tel" id="phone" name="phone" required>
-            <label for="message">Treœæ:</label>
-            <textarea id="message" name="message" required></textarea>
-            <button type="submit">Wyœlij</button>
+        <h1>Part 4: Contact Us</h1>
+        <form class="contact-form" action="contact.php" method="post">
+            <input type="text" name="name" placeholder="Your name" required><br>
+            <input type="text" name="phone" placeholder="Your phone number" required><br>
+            <textarea name="message" placeholder="Your message" rows="5" required></textarea><br>
+            <input type="submit" value="Submit">
         </form>
-        <p>Tutaj mo¿esz dodaæ informacjê, ¿e wys³anie formularza nie jest obs³ugiwane.</p>
-    </section>
-
-    <footer>
-        <p>Moja strona - Wszelkie prawa zastrze¿one.</p>
-    </footer>
+    </div>
 </body>
 </html>
