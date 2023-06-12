@@ -36,9 +36,9 @@
             cursor: pointer;
         }
 
-        .contact-form input[type="submit"]:hover {
-            background-color: #45a049;
-        }
+            .contact-form input[type="submit"]:hover {
+                background-color: #45a049;
+            }
 
         .read-more-btn {
             display: inline-block;
@@ -52,12 +52,64 @@
     </style>
 
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MCGW9FT');</script>
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MCGW9FT');</script>
     <!-- End Google Tag Manager -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GTM-MCGW9FT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'GTM-MCGW9FT');
+    </script>
+    <script>
+        var formIsDirty = false; // Flaga wskazująca, czy formularz został zmodyfikowany
+
+        function checkFormStatus() {
+            if (formIsDirty) {
+                gtag('event', 'form_incomplete', {
+                    'event_category': 'form'
+                });
+                console.log("modified");
+            }
+        }
+
+        window.addEventListener('beforeunload', function (event) {
+            checkFormStatus();
+            console.log("beforeunload")
+            event.returnValue = '';
+        });
+
+        var formInputs = document.querySelectorAll('.contact-form input[type="text"], .contact-form textarea');
+        formInputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                formIsDirty = true;
+                checkFormStatus();
+                gtag('event', 'form_partial_fill', {
+                    'event_category': 'form',
+                    'event_label': input.name
+                });
+                cosnole.log("submit");
+            });
+        });
+
+        var form = document.querySelector('.contact-form');
+        form.addEventListener('submit', function () {
+            gtag('event', 'form_submit', {
+                'event_category': 'form'
+            });
+            cosnole.log("submit");
+        });
+    </script>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
