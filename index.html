@@ -72,42 +72,44 @@
         gtag('config', 'GTM-MCGW9FT');
     </script>
     <script>
-        var formIsDirty = false; // Flaga wskazująca, czy formularz został zmodyfikowany
+        document.addEventListener('DOMContentLoaded', function () {
+            var formIsDirty = false; // Flaga wskazująca, czy formularz został zmodyfikowany
 
-        function checkFormStatus() {
-            if (formIsDirty) {
-                gtag('event', 'form_incomplete', {
-                    'event_category': 'form'
-                });
-                console.log("modified");
+            function checkFormStatus() {
+                if (formIsDirty) {
+                    gtag('event', 'form_incomplete', {
+                        'event_category': 'form'
+                    });
+                    console.log("modified");
+                }
             }
-        }
 
-        window.addEventListener('beforeunload', function (event) {
-            checkFormStatus();
-            console.log("beforeunload")
-            event.returnValue = '';
-        });
-
-        var formInputs = document.querySelectorAll('.contact-form input[type="text"], .contact-form textarea');
-        formInputs.forEach(function (input) {
-            input.addEventListener('input', function () {
-                formIsDirty = true;
+            window.addEventListener('beforeunload', function (event) {
                 checkFormStatus();
-                gtag('event', 'form_partial_fill', {
-                    'event_category': 'form',
-                    'event_label': input.name
+                console.log("beforeunload")
+                event.returnValue = '';
+            });
+
+            var formInputs = document.querySelectorAll('.contact-form input[type="text"], .contact-form textarea');
+            formInputs.forEach(function (input) {
+                input.addEventListener('input', function () {
+                    formIsDirty = true;
+                    checkFormStatus();
+                    gtag('event', 'form_partial_fill', {
+                        'event_category': 'form',
+                        'event_label': input.name
+                    });
+                    cosnole.log("submit");
+                });
+            });
+
+            var form = document.querySelector('.contact-form');
+            form.addEventListener('submit', function () {
+                gtag('event', 'form_submit', {
+                    'event_category': 'form'
                 });
                 cosnole.log("submit");
             });
-        });
-
-        var form = document.querySelector('.contact-form');
-        form.addEventListener('submit', function () {
-            gtag('event', 'form_submit', {
-                'event_category': 'form'
-            });
-            cosnole.log("submit");
         });
     </script>
 </head>
