@@ -73,38 +73,45 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var formIsDirty = false; // Flaga wskazująca, czy formularz został zmodyfikowany
+            let formIsDirty = false; // Flaga wskazująca, czy formularz został zmodyfikowany
+            let formTimeout;
 
-            function checkFormStatus() {
-                if (formIsDirty) {
-                    gtag('event', 'form_incomplete', {
-                        'event_category': 'form'
-                    });
-                    console.log("modified");
-                }
+            // Function to handle form partial fill event
+            function sendPartialFillEvent() {
+                gtag('event', 'form_partial_fill', {
+                    'event_category': 'form'
+                });
+            }
+
+            // Function to start the form timeout
+            function startFormTimeout() {
+                formTimeout = setTimeout(function () {
+                    sendPartialFillEvent();
+                }, 20000); // 20 seconds
             }
 
             window.addEventListener('beforeunload', function (event) {
-                checkFormStatus();
-                console.log("beforeunload")
+                if (formIsDirty) {
+                    sendPartialFillEvent();
+                }
                 event.returnValue = '';
             });
 
             var formInputs = document.querySelectorAll('.contact-form input[type="text"], .contact-form textarea');
             formInputs.forEach(function (input) {
                 input.addEventListener('input', function () {
+                    if (formIsDirty) {
+                        clearTimeout(formTimeout);
+                        return;
+                    }
                     formIsDirty = true;
-                    checkFormStatus();
-                    gtag('event', 'form_partial_fill', {
-                        'event_category': 'form',
-                        'event_label': input.name
-                    });
-                    console.log("submit");
+                    startFormTimeout();
                 });
             });
 
             var form = document.querySelector('.contact-form');
             form.addEventListener('submit', function () {
+                clearTimeout(formTimeout);
                 gtag('event', 'form_submit', {
                     'event_category': 'form'
                 });
