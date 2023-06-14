@@ -72,9 +72,8 @@
         gtag('config', 'GTM-MCGW9FT');
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', async function () {
             let formIsDirty = false; // Flaga wskazująca, czy formularz został zmodyfikowany
-            let formTimeout;
 
             // Function to handle form partial fill event
             function sendPartialFillEvent() {
@@ -85,33 +84,34 @@
 
             // Function to start the form timeout
             function startFormTimeout() {
-                formTimeout = setTimeout(function () {
-                    sendPartialFillEvent();
-                }, 20000); // 20 seconds
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        sendPartialFillEvent();
+                        resolve();
+                    }, 5000); // 5 seconds
+                });
             }
 
-            window.addEventListener('beforeunload', function (event) {
+            window.addEventListener('beforeunload', async function (event) {
                 if (formIsDirty) {
-                    sendPartialFillEvent();
+                    await sendPartialFillEvent();
                 }
                 event.returnValue = '';
             });
 
             var formInputs = document.querySelectorAll('.contact-form input[type="text"], .contact-form textarea');
             formInputs.forEach(function (input) {
-                input.addEventListener('input', function () {
+                input.addEventListener('input', async function () {
                     if (formIsDirty) {
-                        clearTimeout(formTimeout);
                         return;
                     }
                     formIsDirty = true;
-                    startFormTimeout();
+                    await startFormTimeout();
                 });
             });
 
             var form = document.querySelector('.contact-form');
-            form.addEventListener('submit', function () {
-                clearTimeout(formTimeout);
+            form.addEventListener('submit', async function () {
                 gtag('event', 'form_submit', {
                     'event_category': 'form'
                 });
